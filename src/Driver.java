@@ -18,13 +18,13 @@ public class Driver {
 
         int HeadPos = 53;
         DiskScheduling test1=new DiskScheduling();
-        //test1.FCFS(Requests,HeadPos);
-        //test1.SSTF(Requests,HeadPos);
-        //test1.Scan(Requests,HeadPos);
-        //test1.C_Scan(Requests,HeadPos);
-        //test1.Look(Requests,HeadPos);
-        //test1.C_Look(Requests,HeadPos);
-        //test1.Optimized(Requests);
+        test1.FCFS(Requests,HeadPos);
+        test1.SSTF(Requests,HeadPos);
+        test1.Scan(Requests,HeadPos);
+        test1.C_Scan(Requests,HeadPos);
+        test1.Look(Requests,HeadPos);
+        test1.C_Look(Requests,HeadPos);
+        test1.Optimized(Requests);
         while (true)
         {
 
@@ -50,10 +50,10 @@ public class Driver {
                 }
                 System.out.print ("\nEnter Head position  ");
                 HeadPos= sc.nextInt ();
-                //test1.FCFS(Requests,HeadPos);
-                //test1.SSTF(Requests,HeadPos);
-                //test1.Scan(Requests,HeadPos);
-                //test1.C_Scan(Requests,HeadPos);
+                test1.FCFS(Requests,HeadPos);
+                test1.SSTF(Requests,HeadPos);
+                test1.Scan(Requests,HeadPos);
+                test1.C_Scan(Requests,HeadPos);
                 test1.Look(Requests,HeadPos);
                 test1.C_Look(Requests,HeadPos);
                 test1.Optimized(Requests);
