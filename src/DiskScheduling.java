@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class DiskScheduling {
@@ -24,10 +23,10 @@ public class DiskScheduling {
                 Total = Total + sub2;
             }
         }
-        for (int i = 0 ; i < Requests.size () ; i++) {
-            System.out.print (Requests.get (i) + "  ");
+        for (Integer request : Requests) {
+            System.out.print (request + "  ");
         }
-        System.out.println ("\nTotal Head Movement = " + (Total + sub1));
+        System.out.println ("\nTotal Head Movement = " + (Total + sub1)+ " Cylinder");
     }
 
     public void SSTF (ArrayList <Integer> Req,int HeadPos) {
@@ -37,8 +36,8 @@ public class DiskScheduling {
         int temp, min, result, Total_Movement = 0;
         System.out.println ("Sequence of head movement :- ");
         while (Requests.size () != 0) {
-            for (int i = 0 ; i < Requests.size () ; i++) {
-                temp = HeadPos - Requests.get (i);
+            for (Integer request : Requests) {
+                temp = HeadPos - request;
                 if ( temp < 0 )
                     temp = (temp * - 1);
                 Movement.add (temp);
@@ -58,11 +57,11 @@ public class DiskScheduling {
             Requests.remove (Movement.indexOf (min));
             Movement.clear ();
         }
-        System.out.println ("\nTotal Head Movement = " + Total_Movement);
+        System.out.println ("\nTotal Head Movement = " + Total_Movement+ " Cylinder");
     }
-    //this algorithm default as left direction
+
     void Scan (ArrayList <Integer> Req,int pos) {
-        System.out.println ("----------------Scan ( Elevator ) Algorithm --------------------");
+        System.out.println ("----------------Scan ( Elevator ) Algorithm direction (left)--------------------");
         ArrayList <Integer> Requests = new ArrayList <> (Req);
         Requests.add (pos);
         Requests.add (start);
@@ -92,30 +91,104 @@ public class DiskScheduling {
         System.out.print (Requests.get (Requests.size () - 1) + " ");
         //System.out.println ("\n"+difference );
         int total = 0;
-        for (int j = 0 ; j < difference.size () ; j++) {
-            total = total + difference.get (j);
+        for (Integer integer : difference) {
+            total = total + integer;
+        }
+        System.out.print ("\nTotal Head movement = " + total + " Cylinder");
+        System.out.println ("\n----------------Scan ( Elevator ) Algorithm direction (Right)--------------------");
+        Requests.clear ();
+        Requests.addAll (Req);
+        Requests.add (pos);
+        Requests.add (end);
+        difference.clear ();
+        Collections.sort (Requests);
+        idx=Requests.indexOf (pos);
+        System.out.println ("Sequence of head movement :- ");
+        for (int j = idx ; j <Requests.size ()-1  ; j++) {
+            if (j == idx)
+                difference.add (Math.abs (Requests.get (j) - Requests.get (j+ 1)));
+            else
+            {
+                difference.add (Math.abs (Requests.get (j) - Requests.get (j+1)));
+                System.out.print (Requests.get (j)+" ");
+            }
+        }
+        System.out.print (Requests.get (Requests.size ()-1)+" ");
+        for (int j = idx-1 ; j >=0  ; j--) {
+            if ( j ==idx-1 )
+            {
+                difference.add (Math.abs (Requests.get (Requests.size ()-1) - Requests.get (j)));
+                System.out.print (Requests.get (j)+" ");
+            }
+            else if ( j==0 ) {
+                difference.add (Math.abs (Requests.get (j) - Requests.get (j+1)));
+                System.out.print (Requests.get (j)+" ");
+            break;
+            }
+
+            else
+            {
+                difference.add (Math.abs (Requests.get (j) - Requests.get (j-1)));
+                System.out.print (Requests.get (j)+" ");
+            }
+
+        }
+         total = 0;
+        for (Integer integer : difference) {
+            total = total + integer;
         }
         System.out.print ("\nTotal Head movement = " + total + " Cylinder");
     }
 
     //this algorithm default as right direction
     void C_Scan (ArrayList <Integer> Req,int pos) {
-        System.out.println ("\n---------------- C Scan Algorithm --------------------");
+        System.out.println ("\n---------------- C Scan Algorithm direction (left) --------------------");
         ArrayList <Integer> Requests = new ArrayList <> (Req);
         Requests.add (pos);
         Requests.add (start);
         Requests.add (end);
-        Collections.sort (Requests);
-        ArrayList <Integer> greater = new ArrayList <> ();
-        int idx = Requests.indexOf (pos);
-        greater.addAll (Requests.subList (idx,Requests.size ()));
-        ArrayList <Integer> lessthan = new ArrayList <> ();
-        lessthan.addAll (Requests.subList (0,idx));
         ArrayList <Integer> difference = new ArrayList <> ();
+        Collections.sort (Requests);
+        int idx = Requests.indexOf (pos);
+        System.out.print ("Sequence of head movement :- ");
+        for (int i = idx ; i >0 ; i--) {
+            if ( i==idx )
+            difference.add (Math.abs (Requests.get (i) - Requests.get (i - 1)));
+            else {
+                difference.add (Math.abs (Requests.get (i) - Requests.get (i - 1)));
+                System.out.print (Requests.get (i) + " ");
+            }
+        }
+
+        ArrayList <Integer> GREATER = new ArrayList <> (Requests.subList (idx+1,Requests.size ()));
+        Collections.reverse (GREATER);
+        GREATER.add (0,start);
+        for (int i = 0 ; i < GREATER.size ()-1 ; i++) {
+            difference.add (Math.abs (GREATER.get (i) - GREATER.get (i + 1)));
+            System.out.print (GREATER.get (i)+" ");
+        }
+        System.out.print (GREATER.get (GREATER.size ()-1)+" ");
+        int total = 0;
+        for (Integer integer : difference) {
+            total += integer;
+
+        }
+        System.out.println ("\nTotal Head movement = " + total + " Cylinder");
+
+        System.out.println ("---------------- C Scan Algorithm direction (Right) --------------------");
+        Requests.clear ();
+        Requests.addAll (Req);
+        Requests.add (pos);
+        Requests.add (start);
+        Requests.add (end);
+        Collections.sort (Requests);
+        idx = Requests.indexOf (pos);
+        ArrayList <Integer> greater = new ArrayList <> (Requests.subList (idx,Requests.size ()));
+        ArrayList <Integer> lessthan = new ArrayList <> (Requests.subList (0,idx));
+       difference.clear ();
         Requests.clear ();
         Requests.addAll (greater);
         Requests.addAll (lessthan);
-        //System.out.println (Requests );
         System.out.print ("Sequence of head movement :- ");
         for (int i = 0 ; i < Requests.size () - 1 ; i++) {
             if ( i == 0 ) {
@@ -126,9 +199,9 @@ public class DiskScheduling {
             }
         }
         System.out.print (Requests.get (Requests.size () - 1));
-        int total = 0;
-        for (int i = 0 ; i < difference.size () ; i++) {
-            total += difference.get (i);
+         total = 0;
+        for (Integer integer : difference) {
+            total += integer;
 
         }
         System.out.println ("\nTotal Head movement = " + total + " Cylinder");
@@ -145,17 +218,17 @@ public class DiskScheduling {
         right = new ArrayList <> ();
         sequence = new ArrayList <> ();
 
-        for (int i = 0 ; i < Requests.size () ; i++) {
-            if ( Requests.get (i) < HeadPos )
-                left.add (Requests.get (i));
-            if ( Requests.get (i) >= HeadPos )
-                right.add (Requests.get (i));
+        for (Integer request : Requests) {
+            if ( request < HeadPos )
+                left.add (request);
+            if ( request >= HeadPos )
+                right.add (request);
         }
         //to sort arr left and right
         Collections.sort (left);
         Collections.sort (right);
-        for (int i = 0 ; i < right.size () ; i++) {
-            current_loc = right.get (i);
+        for (Integer integer : right) {
+            current_loc = integer;
             sequence.add (current_loc);
 
             // to absolute value
@@ -178,8 +251,8 @@ public class DiskScheduling {
 
 
         System.out.print ("Sequence of head movement:- ");
-        for (int i = 0 ; i < sequence.size () ; i++) {
-            System.out.print (sequence.get (i) + " ");
+        for (Integer integer : sequence) {
+            System.out.print (integer + " ");
         }
         System.out.println ("\nThe Total Head Movement To Look Algorithm  " + total_head_movement + " Cylinder");
 
@@ -194,19 +267,19 @@ public class DiskScheduling {
         right = new ArrayList <> ();
         sequence = new ArrayList <> ();
 
-        for (int i = 0 ; i < Requests.size () ; i++) {
-            if ( Requests.get (i) < HeadPos )
-                left.add (Requests.get (i));
-            if ( Requests.get (i) > HeadPos )
-                right.add (Requests.get (i));
+        for (Integer request : Requests) {
+            if ( request < HeadPos )
+                left.add (request);
+            if ( request > HeadPos )
+                right.add (request);
         }
         //to sort arr left and right
         Collections.sort (left);
         Collections.sort (right);
 
 
-        for (int i = 0 ; i < right.size () ; i++) {
-            current_loc = right.get (i);
+        for (Integer item : right) {
+            current_loc = item;
             sequence.add (current_loc);
 
             // to absolute value
@@ -215,8 +288,8 @@ public class DiskScheduling {
             total_head_movement = total_head_movement + distance;
             HeadPos = current_loc;
         }
-        for (int i = 0 ; i < left.size () ; i++) {
-            current_loc = left.get (i);
+        for (Integer value : left) {
+            current_loc = value;
             sequence.add (current_loc);
 
             // to absolute value
@@ -226,8 +299,8 @@ public class DiskScheduling {
             HeadPos = current_loc;
         }
         System.out.print ("Sequence of head movement:- ");
-        for (int i = 0 ; i < sequence.size () ; i++) {
-            System.out.print (sequence.get (i) + " ");
+        for (Integer integer : sequence) {
+            System.out.print (integer + " ");
         }
         System.out.println ("\nThe Total Head Movement To C_Look Algorithm  " + total_head_movement + " Cylinder");
 
@@ -237,8 +310,8 @@ public class DiskScheduling {
         System.out.println ("----------------Optimized Algorithm --------------------");
         Collections.sort (Requests);
         int start = 0, current_loc, total_head_movement = 0, distance;
-        for (int i = 0 ; i < Requests.size () ; i++) {
-            current_loc = Requests.get (i);
+        for (Integer request : Requests) {
+            current_loc = request;
 
             // to absolute value
             distance = Math.abs (current_loc - start);
@@ -248,8 +321,8 @@ public class DiskScheduling {
         }
 
         System.out.print ("Sequence of head movement:- ");
-        for (int i = 0 ; i < Requests.size () ; i++) {
-            System.out.print (Requests.get (i) + " ");
+        for (Integer request : Requests) {
+            System.out.print (request + " ");
         }
         System.out.println ("\nThe Total Head Movement To Optimized Algorithm  " + total_head_movement + " Cylinder");
 
