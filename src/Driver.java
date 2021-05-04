@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -18,11 +17,11 @@ public class Driver {
         Requests.add ( 67 );
 
         int HeadPos = 53;
-        DiskScheduling test1 = new DiskScheduling ();
+        DiskScheduling test1=new DiskScheduling();
         //test1.FCFS(Requests,HeadPos);
         //test1.SSTF(Requests,HeadPos);
-        test1.Scan(Requests,HeadPos);
-        test1.C_Scan(Requests,HeadPos);
+        //test1.Scan(Requests,HeadPos);
+        //test1.C_Scan(Requests,HeadPos);
         //test1.Look(Requests,HeadPos);
         //test1.C_Look(Requests,HeadPos);
         //test1.Optimized(Requests);
@@ -53,11 +52,11 @@ public class Driver {
                 HeadPos= sc.nextInt ();
                 //test1.FCFS(Requests,HeadPos);
                 //test1.SSTF(Requests,HeadPos);
-                test1.Scan(Requests,HeadPos);
-                test1.C_Scan(Requests,HeadPos);
-                //test1.Look(Requests,HeadPos);
-                //test1.C_Look(Requests,HeadPos);
-                //test1.Optimized(Requests);
+                //test1.Scan(Requests,HeadPos);
+                //test1.C_Scan(Requests,HeadPos);
+                test1.Look(Requests,HeadPos);
+                test1.C_Look(Requests,HeadPos);
+                test1.Optimized(Requests);
             }else
                 exit(0);
 
